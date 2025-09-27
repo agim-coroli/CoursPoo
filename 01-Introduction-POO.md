@@ -195,62 +195,129 @@ class Voiture extends Vehicule {
 
 ## 🎯 Exercices pratiques
 
-### Exercice 1 : Créer votre première classe
+### Exercice 1 : Système de gestion d'employés
 
-Créez une classe `Personne` avec :
+**🎯 OBJECTIF :** Créer un système simple pour gérer les employés d'une entreprise et calculer leur salaire.
 
-- Propriétés : `nom`, `age`
-- Méthodes : `sePresenter()`, `feterAnniversaire()`
+**📋 SCÉNARIO :** Vous travaillez pour une startup qui veut automatiser la gestion de ses employés. Vous devez créer un système qui permet de :
+
+- Enregistrer un nouvel employé
+- Afficher ses informations
+- Calculer son salaire mensuel
+- Gérer son anniversaire
+
+**📝 SPÉCIFICATIONS :**
+
+- Classe `Employe` avec propriétés : `nom`, `age`, `poste`, `salaireHoraire`, `heuresTravaillees`
+- Méthodes : `sePresenter()`, `calculerSalaireMensuel()`, `feterAnniversaire()`, `changerPoste()`
+
+**✅ RÉSULTAT ATTENDU :**
+
+```
+=== GESTION DES EMPLOYÉS ===
+Nouvel employé créé : Alice Dupont, 28 ans, Développeuse
+Salaire mensuel d'Alice : 3200€
+Alice fête son anniversaire ! Elle a maintenant 29 ans
+Alice a été promue : Développeuse Senior
+Nouveau salaire mensuel : 4000€
+```
+
+**💻 SOLUTION :**
 
 ```php
 <?php
-class Personne {
+class Employe {
     public $nom;
     public $age;
+    public $poste;
+    public $salaireHoraire;
+    public $heuresTravaillees;
 
-    public function __construct($nom, $age) {
+    public function __construct($nom, $age, $poste, $salaireHoraire, $heuresTravaillees = 160) {
         $this->nom = $nom;
         $this->age = $age;
+        $this->poste = $poste;
+        $this->salaireHoraire = $salaireHoraire;
+        $this->heuresTravaillees = $heuresTravaillees;
     }
 
     public function sePresenter() {
-        echo "Bonjour, je suis {$this->nom} et j'ai {$this->age} ans.";
+        echo "Nouvel employé créé : {$this->nom}, {$this->age} ans, {$this->poste}\n";
+    }
+
+    public function calculerSalaireMensuel() {
+        $salaire = $this->salaireHoraire * $this->heuresTravaillees;
+        echo "Salaire mensuel de {$this->nom} : {$salaire}€\n";
+        return $salaire;
     }
 
     public function feterAnniversaire() {
         $this->age++;
-        echo "Joyeux anniversaire ! J'ai maintenant {$this->age} ans.";
+        echo "{$this->nom} fête son anniversaire ! Elle a maintenant {$this->age} ans\n";
+    }
+
+    public function changerPoste($nouveauPoste, $nouveauSalaire) {
+        $ancienPoste = $this->poste;
+        $this->poste = $nouveauPoste;
+        $this->salaireHoraire = $nouveauSalaire;
+        echo "{$this->nom} a été promue : {$nouveauPoste}\n";
+        echo "Nouveau salaire mensuel : " . $this->calculerSalaireMensuel() . "€\n";
     }
 }
 
-// Test
-$personne = new Personne("Marie", 25);
-$personne->sePresenter();
-$personne->feterAnniversaire();
+// Test du système
+echo "=== GESTION DES EMPLOYÉS ===\n";
+$employe = new Employe("Alice Dupont", 28, "Développeuse", 20, 160);
+$employe->sePresenter();
+$employe->calculerSalaireMensuel();
+$employe->feterAnniversaire();
+$employe->changerPoste("Développeuse Senior", 25);
 ?>
 ```
 
-### Exercice 2 : Comparaison procédural vs POO
+### Exercice 2 : Système de gestion de stock
 
-**Version procédurale :**
+**🎯 OBJECTIF :** Comparer deux approches pour gérer l'inventaire d'un magasin et comprendre pourquoi la POO est meilleure.
 
-```php
-<?php
-$produit_nom = "Laptop";
-$produit_prix = 999;
-$produit_stock = 5;
+**📋 SCÉNARIO :** Vous gérez un magasin de technologie. Vous devez :
 
-function afficher_produit($nom, $prix, $stock) {
-    echo "Produit: $nom, Prix: $prix€, Stock: $stock";
-}
+- Suivre les produits en stock
+- Gérer les ventes
+- Afficher les statistiques
+- Gérer plusieurs produits simultanément
 
-function reduire_stock($stock) {
-    return $stock - 1;
-}
-?>
+**❌ PROBLÈME avec l'approche procédurale :**
+
+- Variables globales dangereuses
+- Code dupliqué pour chaque produit
+- Difficile à maintenir
+
+**✅ SOLUTION avec la POO :**
+
+- Chaque produit est un objet indépendant
+- Code réutilisable
+- Facile à étendre
+
+**📝 SPÉCIFICATIONS :**
+
+- Classe `Produit` avec propriétés : `nom`, `prix`, `stock`
+- Méthodes : `afficher()`, `vendre()`, `ajouterStock()`, `estDisponible()`
+
+**✅ RÉSULTAT ATTENDU :**
+
+```
+=== GESTION DE STOCK ===
+Produit: Laptop, Prix: 999€, Stock: 5
+Vente effectuée ! Stock restant: 4
+Stock ajouté ! Nouveau stock: 9
+Produit: Souris, Prix: 25€, Stock: 10
+Vente effectuée ! Stock restant: 9
+=== STATISTIQUES ===
+Laptop: 9 en stock (valeur: 8991€)
+Souris: 9 en stock (valeur: 225€)
 ```
 
-**Version orientée objet :**
+**💻 SOLUTION :**
 
 ```php
 <?php
@@ -266,16 +333,60 @@ class Produit {
     }
 
     public function afficher() {
-        echo "Produit: {$this->nom}, Prix: {$this->prix}€, Stock: {$this->stock}";
+        echo "Produit: {$this->nom}, Prix: {$this->prix}€, Stock: {$this->stock}\n";
     }
 
     public function vendre() {
         if ($this->stock > 0) {
             $this->stock--;
+            echo "Vente effectuée ! Stock restant: {$this->stock}\n";
             return true;
+        } else {
+            echo "Produit épuisé !\n";
+            return false;
         }
-        return false;
     }
+
+    public function ajouterStock($quantite) {
+        $this->stock += $quantite;
+        echo "Stock ajouté ! Nouveau stock: {$this->stock}\n";
+    }
+
+    public function estDisponible() {
+        return $this->stock > 0;
+    }
+
+    public function getValeurStock() {
+        return $this->stock * $this->prix;
+    }
+
+    public function getInfo() {
+        return [
+            'nom' => $this->nom,
+            'prix' => $this->prix,
+            'stock' => $this->stock,
+            'valeur' => $this->getValeurStock()
+        ];
+    }
+}
+
+// Test du système
+echo "=== GESTION DE STOCK ===\n";
+$laptop = new Produit("Laptop", 999, 5);
+$souris = new Produit("Souris", 25, 10);
+
+$laptop->afficher();
+$laptop->vendre();
+$laptop->ajouterStock(5);
+
+$souris->afficher();
+$souris->vendre();
+
+echo "=== STATISTIQUES ===\n";
+$produits = [$laptop, $souris];
+foreach ($produits as $produit) {
+    $info = $produit->getInfo();
+    echo "{$info['nom']}: {$info['stock']} en stock (valeur: {$info['valeur']}€)\n";
 }
 ?>
 ```

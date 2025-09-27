@@ -610,3 +610,4 @@ Maintenant que vous maîtrisez l'encapsulation, passez au **[Module 4 : Construc
 ---
 
 **Bonne programmation ! 🎉**
+

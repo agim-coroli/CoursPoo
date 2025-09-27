@@ -642,3 +642,4 @@ Maintenant que vous maîtrisez l'héritage, passez au **[Module 6 : Le polymorph
 ---
 
 **Bonne programmation ! 🎉**
+

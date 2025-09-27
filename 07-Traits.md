@@ -843,3 +843,4 @@ Maintenant que vous maîtrisez les traits, passez au **[Module 8 : Les namespace
 ---
 
 **Bonne programmation ! 🎉**
+

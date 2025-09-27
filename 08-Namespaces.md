@@ -737,3 +737,4 @@ Maintenant que vous maîtrisez les namespaces, passez au **[Module 9 : La gestio
 ---
 
 **Bonne programmation ! 🎉**
+
