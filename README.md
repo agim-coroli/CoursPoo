@@ -7,9 +7,9 @@
 ### 📖 Modules du cours
 
 1. **[01-Introduction-POO](01-Introduction-POO.md)** - Introduction à la POO en PHP
-2. **[02-Classes-Objets](02-Classes-Objets.md)** - Les classes et objets
-3. **[03-Encapsulation](03-Encapsulation.md)** - Encapsulation et modificateurs d'accès
-4. **[04-Constructeurs-Destructeurs](04-Constructeurs-Destructeurs.md)** - Constructeurs et destructeurs
+2. **[02-Classes-Objets](02-Classes-Objets.md)** - Les classes et objets + **Typage strict**
+3. **[03-Encapsulation](03-Encapsulation.md)** - Encapsulation + **Types nullable**
+4. **[04-Constructeurs-Destructeurs](04-Constructeurs-Destructeurs.md)** - Constructeurs et destructeurs + **Validation**
 5. **[05-Heritage](05-Heritage.md)** - Héritage et surcharge
 6. **[06-Polymorphisme](06-Polymorphisme.md)** - Polymorphisme, interfaces et classes abstraites
 7. **[07-Traits](07-Traits.md)** - Les traits
@@ -31,7 +31,9 @@
 ✅ **Lire et comprendre du code orienté objet complexe**  
 ✅ **Développer des APIs REST** avec une architecture claire  
 ✅ **Gérer les erreurs** de manière professionnelle  
-✅ **Organiser votre code** avec les namespaces et l'autoloading
+✅ **Organiser votre code** avec les namespaces et l'autoloading  
+✅ **Utiliser le typage strict** pour une sécurité maximale  
+✅ **Valider les données** avec des types stricts et des exceptions
 
 ---
 

@@ -9,6 +9,33 @@
 - Comprendre les propriétés et méthodes
 - Utiliser le mot-clé `$this`
 - Différencier classe et objet
+- **Typage strict et sécurité**
+- **Types de propriétés et méthodes**
+
+---
+
+## 🔒 Typage strict et sécurité
+
+### Pourquoi le typage strict ?
+
+Le **typage strict** est essentiel pour la sécurité et la fiabilité du code. Il permet de :
+
+- ✅ **Prévenir les erreurs** avant l'exécution
+- ✅ **Améliorer la lisibilité** du code
+- ✅ **Faciliter la maintenance** et le débogage
+- ✅ **Garantir la sécurité** des données
+
+### Activation du mode strict
+
+```php
+<?php
+declare(strict_types=1);
+
+// Tout le code qui suit respecte le typage strict
+?>
+```
+
+### ⚠️ **IMPORTANT** : Le mode strict doit être déclaré en première ligne
 
 ---
 
@@ -27,50 +54,118 @@ Une **classe** est un modèle (template) qui définit la structure d'un objet. C
 
 ## Déclaration d'une classe
 
-### Syntaxe de base
+### Syntaxe de base avec typage strict
 
 ```php
 <?php
-class NomDeLaClasse {
-    // Propriétés (variables)
-    public $propriete1;
-    public $propriete2;
+declare(strict_types=1);
 
-    // Méthodes (fonctions)
-    public function nomDeLaMethode() {
+class NomDeLaClasse {
+    // Propriétés typées (variables)
+    private string $propriete1;
+    private int $propriete2;
+    private ?string $proprieteOptionnelle; // Peut être null
+
+    // Méthodes typées (fonctions)
+    public function nomDeLaMethode(): void {
         // Code de la méthode
     }
+
+    public function getPropriete1(): string {
+        return $this->propriete1;
+    }
 }
 ?>
 ```
 
-### Exemple concret : Classe Voiture
+### Exemple concret : Classe Voiture avec typage strict
 
 ```php
 <?php
+declare(strict_types=1);
+
 class Voiture {
-    // Propriétés (caractéristiques)
-    public $marque;
-    public $couleur;
-    public $vitesse = 0;
+    // Propriétés typées (caractéristiques)
+    private string $marque;
+    private string $couleur;
+    private int $vitesse = 0;
+    private bool $demarree = false;
 
-    // Méthodes (actions)
-    public function demarrer() {
-        echo "La voiture démarre !";
+    // Constructeur typé
+    public function __construct(string $marque, string $couleur) {
+        $this->marque = $marque;
+        $this->couleur = $couleur;
     }
 
-    public function accelerer($kmh) {
+    // Méthodes typées (actions)
+    public function demarrer(): void {
+        $this->demarree = true;
+        echo "La voiture {$this->marque} démarre !\n";
+    }
+
+    public function accelerer(int $kmh): void {
+        if (!$this->demarree) {
+            echo "Impossible d'accélérer, la voiture n'est pas démarrée !\n";
+            return;
+        }
         $this->vitesse += $kmh;
-        echo "Vitesse actuelle : {$this->vitesse} km/h";
+        echo "Vitesse actuelle : {$this->vitesse} km/h\n";
     }
 
-    public function freiner() {
+    public function freiner(): void {
         $this->vitesse = max(0, $this->vitesse - 10);
-        echo "Vitesse après freinage : {$this->vitesse} km/h";
+        echo "Vitesse après freinage : {$this->vitesse} km/h\n";
+    }
+
+    // Getters typés
+    public function getMarque(): string {
+        return $this->marque;
+    }
+
+    public function getCouleur(): string {
+        return $this->couleur;
+    }
+
+    public function getVitesse(): int {
+        return $this->vitesse;
+    }
+
+    public function isDemarree(): bool {
+        return $this->demarree;
     }
 }
 ?>
 ```
+
+---
+
+## 📋 Types disponibles en PHP
+
+### Types de base
+
+| **Type** | **Description**      | **Exemple**     |
+| -------- | -------------------- | --------------- |
+| `string` | Chaîne de caractères | `"Hello World"` |
+| `int`    | Nombre entier        | `42`            |
+| `float`  | Nombre décimal       | `3.14`          |
+| `bool`   | Booléen              | `true`, `false` |
+| `array`  | Tableau              | `[1, 2, 3]`     |
+
+### Types nullable
+
+| **Type**  | **Description** | **Exemple**               |
+| --------- | --------------- | ------------------------- |
+| `?string` | Chaîne ou null  | `"Hello"` ou `null`       |
+| `?int`    | Entier ou null  | `42` ou `null`            |
+| `?bool`   | Booléen ou null | `true`, `false` ou `null` |
+
+### Types de retour des méthodes
+
+| **Type** | **Description**     | **Exemple**                        |
+| -------- | ------------------- | ---------------------------------- |
+| `void`   | Ne retourne rien    | `public function demarrer(): void` |
+| `string` | Retourne une chaîne | `public function getNom(): string` |
+| `bool`   | Retourne un booléen | `public function isActif(): bool`  |
 
 ---
 
@@ -91,16 +186,11 @@ $monObjet = new NomDeLaClasse();
 
 ```php
 <?php
-// Création d'objets (instances)
-$maVoiture = new Voiture();
-$voitureDeMonAmi = new Voiture();
+declare(strict_types=1);
 
-// Accès aux propriétés
-$maVoiture->marque = "Toyota";
-$maVoiture->couleur = "Rouge";
-
-$voitureDeMonAmi->marque = "BMW";
-$voitureDeMonAmi->couleur = "Noire";
+// Création d'objets (instances) avec paramètres typés
+$maVoiture = new Voiture("Toyota", "Rouge");
+$voitureDeMonAmi = new Voiture("BMW", "Noire");
 
 // Appel des méthodes
 $maVoiture->demarrer();

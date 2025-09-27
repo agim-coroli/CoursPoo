@@ -9,6 +9,82 @@
 - Créer des getters et setters
 - Bonnes pratiques d'encapsulation
 - Contrôler l'accès aux données
+- **Types nullable et validation**
+- **Gestion des valeurs null**
+
+---
+
+## 🔒 Types nullable et validation
+
+### Qu'est-ce qu'un type nullable ?
+
+Un **type nullable** permet à une propriété d'être soit d'un type spécifique, soit `null`. C'est utile pour les champs optionnels.
+
+### Syntaxe des types nullable
+
+```php
+<?php
+declare(strict_types=1);
+
+class Profil {
+    private string $nom;           // Toujours une chaîne
+    private ?string $telephone;    // Chaîne ou null
+    private ?string $email;        // Chaîne ou null
+    private ?int $age;            // Entier ou null
+
+    public function __construct(string $nom, ?string $telephone = null) {
+        $this->nom = $nom;
+        $this->telephone = $telephone;
+        $this->email = null;
+        $this->age = null;
+    }
+
+    // Getters avec gestion des valeurs null
+    public function getTelephone(): ?string {
+        return $this->telephone;
+    }
+
+    public function hasTelephone(): bool {
+        return $this->telephone !== null;
+    }
+
+    public function getTelephoneFormate(): string {
+        if ($this->telephone === null) {
+            return "Non renseigné";
+        }
+        return $this->telephone;
+    }
+}
+?>
+```
+
+### Validation des types nullable
+
+```php
+<?php
+declare(strict_types=1);
+
+class UtilisateurSecurise {
+    private string $nom;
+    private ?string $email;
+    private ?int $age;
+
+    public function setEmail(?string $email): void {
+        if ($email !== null && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            throw new InvalidArgumentException("Email invalide");
+        }
+        $this->email = $email;
+    }
+
+    public function setAge(?int $age): void {
+        if ($age !== null && ($age < 0 || $age > 120)) {
+            throw new InvalidArgumentException("L'âge doit être entre 0 et 120 ans");
+        }
+        $this->age = $age;
+    }
+}
+?>
+```
 
 ---
 
@@ -610,4 +686,3 @@ Maintenant que vous maîtrisez l'encapsulation, passez au **[Module 4 : Construc
 ---
 
 **Bonne programmation ! 🎉**
-
