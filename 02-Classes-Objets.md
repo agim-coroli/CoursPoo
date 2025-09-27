@@ -307,20 +307,70 @@ Rex dort et récupère de l'énergie !
 ```php
 <?php
 class Animal {
-    public $nom;
-    public $espece;
-    public $age;
-    public $faim;
-    public $fatigue;
-    public $bonheur;
+    private $nom;
+    private $espece;
+    private $age;
+    private $faim;
+    private $fatigue;
+    private $bonheur;
 
     public function __construct($nom, $espece, $age) {
-        $this->nom = $nom;
-        $this->espece = $espece;
-        $this->age = $age;
+        $this->setNom($nom);
+        $this->setEspece($espece);
+        $this->setAge($age);
         $this->faim = 80;      // Commence affamé
         $this->fatigue = 70;    // Commence fatigué
         $this->bonheur = 50;   // Commence neutre
+    }
+
+    // Getters
+    public function getNom() {
+        return $this->nom;
+    }
+
+    public function getEspece() {
+        return $this->espece;
+    }
+
+    public function getAge() {
+        return $this->age;
+    }
+
+    public function getFaim() {
+        return $this->faim;
+    }
+
+    public function getFatigue() {
+        return $this->fatigue;
+    }
+
+    public function getBonheur() {
+        return $this->bonheur;
+    }
+
+    // Setters avec validation
+    public function setNom($nom) {
+        if (strlen($nom) >= 2) {
+            $this->nom = trim($nom);
+            return true;
+        }
+        return false;
+    }
+
+    public function setEspece($espece) {
+        if (strlen($espece) >= 2) {
+            $this->espece = trim($espece);
+            return true;
+        }
+        return false;
+    }
+
+    public function setAge($age) {
+        if ($age > 0 && $age <= 30) {
+            $this->age = $age;
+            return true;
+        }
+        return false;
     }
 
     public function manger() {

@@ -227,18 +227,80 @@ Nouveau salaire mensuel : 4000€
 ```php
 <?php
 class Employe {
-    public $nom;
-    public $age;
-    public $poste;
-    public $salaireHoraire;
-    public $heuresTravaillees;
+    private $nom;
+    private $age;
+    private $poste;
+    private $salaireHoraire;
+    private $heuresTravaillees;
 
     public function __construct($nom, $age, $poste, $salaireHoraire, $heuresTravaillees = 160) {
-        $this->nom = $nom;
-        $this->age = $age;
-        $this->poste = $poste;
-        $this->salaireHoraire = $salaireHoraire;
-        $this->heuresTravaillees = $heuresTravaillees;
+        $this->setNom($nom);
+        $this->setAge($age);
+        $this->setPoste($poste);
+        $this->setSalaireHoraire($salaireHoraire);
+        $this->setHeuresTravaillees($heuresTravaillees);
+    }
+
+    // Getters
+    public function getNom() {
+        return $this->nom;
+    }
+
+    public function getAge() {
+        return $this->age;
+    }
+
+    public function getPoste() {
+        return $this->poste;
+    }
+
+    public function getSalaireHoraire() {
+        return $this->salaireHoraire;
+    }
+
+    public function getHeuresTravaillees() {
+        return $this->heuresTravaillees;
+    }
+
+    // Setters avec validation
+    public function setNom($nom) {
+        if (strlen($nom) >= 2) {
+            $this->nom = trim($nom);
+            return true;
+        }
+        return false;
+    }
+
+    public function setAge($age) {
+        if ($age >= 18 && $age <= 65) {
+            $this->age = $age;
+            return true;
+        }
+        return false;
+    }
+
+    public function setPoste($poste) {
+        if (strlen($poste) >= 2) {
+            $this->poste = trim($poste);
+            return true;
+        }
+        return false;
+    }
+
+    public function setSalaireHoraire($salaire) {
+        if ($salaire > 0) {
+            $this->salaireHoraire = $salaire;
+            return true;
+        }
+        return false;
+    }
+
+    public function setHeuresTravaillees($heures) {
+        if ($heures > 0 && $heures <= 200) {
+            $this->heuresTravaillees = $heures;
+            return true;
+        }
+        return false;
     }
 
     public function sePresenter() {
@@ -257,11 +319,12 @@ class Employe {
     }
 
     public function changerPoste($nouveauPoste, $nouveauSalaire) {
-        $ancienPoste = $this->poste;
-        $this->poste = $nouveauPoste;
-        $this->salaireHoraire = $nouveauSalaire;
-        echo "{$this->nom} a été promue : {$nouveauPoste}\n";
-        echo "Nouveau salaire mensuel : " . $this->calculerSalaireMensuel() . "€\n";
+        if ($this->setPoste($nouveauPoste) && $this->setSalaireHoraire($nouveauSalaire)) {
+            echo "{$this->nom} a été promue : {$nouveauPoste}\n";
+            echo "Nouveau salaire mensuel : " . $this->calculerSalaireMensuel() . "€\n";
+        } else {
+            echo "Erreur : Données invalides pour le changement de poste\n";
+        }
     }
 }
 
