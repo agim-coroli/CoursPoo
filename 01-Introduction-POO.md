@@ -1,456 +1,241 @@
 # 📚 Module 1 : Introduction à la POO en PHP
 
-> **Objectif** : Comprendre les concepts fondamentaux de la programmation orientée objet
+> **Objectif** : Découvrir les concepts de base de la programmation orientée objet
 
 ## 🎯 Ce que vous allez apprendre
 
-- Qu'est-ce que la programmation orientée objet
-- Pourquoi utiliser la POO en PHP
-- Différences entre programmation procédurale et orientée objet
-- Avantages de la POO
+- Qu'est-ce qu'une classe
+- Qu'est-ce qu'un objet
+- Les propriétés et méthodes
+- Comment instancier un objet
+- Votre premier exercice pratique
 
 ---
 
-## Qu'est-ce que la programmation orientée objet ?
+## Qu'est-ce qu'une classe ?
 
-La **Programmation Orientée Objet (POO)** est un paradigme de programmation qui organise le code autour de concepts du monde réel appelés **objets**. Chaque objet possède :
+Une **classe** est un modèle (plan) qui définit la structure d'un objet. C'est comme un plan d'architecte pour construire une maison.
 
-- **Des propriétés** (caractéristiques) - comme la couleur d'une voiture
-- **Des méthodes** (actions) - comme démarrer ou freiner
+### 🏠 Analogie simple
 
-### 🏠 Analogie avec la vie réelle
-
-Imaginez une **maison** :
-
-- **Propriétés** : nombre de pièces, couleur, taille, adresse
-- **Méthodes** : ouvrir la porte, allumer la lumière, chauffer
-
-En programmation, on crée des **classes** (modèles) pour représenter ces concepts.
+- **Classe** = Plan d'architecte
+- **Objet** = Maison construite à partir du plan
+- **Propriétés** = Caractéristiques (couleur, nombre de pièces)
+- **Méthodes** = Actions (ouvrir porte, allumer lumière)
 
 ---
 
-## Pourquoi utiliser la POO en PHP ?
+## Qu'est-ce qu'un objet ?
 
-### ✅ Avantages de la POO
+Un **objet** est une instance concrète d'une classe. C'est comme construire une vraie maison à partir du plan.
 
-| **Avantage**        | **Description**                               | **Exemple**                                  |
-| ------------------- | --------------------------------------------- | -------------------------------------------- |
-| **Réutilisabilité** | Éviter la duplication de code                 | Une classe `User` utilisable partout         |
-| **Maintenabilité**  | Code plus facile à modifier et déboguer       | Modifier une méthode affecte tous les objets |
-| **Organisation**    | Structure claire et logique                   | Séparation des responsabilités               |
-| **Évolutivité**     | Facilite l'ajout de nouvelles fonctionnalités | Héritage et polymorphisme                    |
-
-### 🔄 Comparaison avec la programmation procédurale
-
-| **Procédural**        | **Orienté Objet**         |
-| --------------------- | ------------------------- |
-| Fonctions isolées     | Méthodes dans des classes |
-| Variables globales    | Propriétés encapsulées    |
-| Code dupliqué         | Code réutilisable         |
-| Difficile à maintenir | Facile à organiser        |
-
----
-
-## Exemple concret : Gestion d'utilisateurs
-
-### ❌ Approche procédurale (ancienne)
+### Exemple simple
 
 ```php
 <?php
-// Variables globales
-$user_name = "";
-$user_email = "";
-$user_age = 0;
+// La classe (le plan)
+class Voiture {
+    // Propriétés (caractéristiques)
+    public $marque;
+    public $couleur;
 
-// Fonctions isolées
-function create_user($name, $email, $age) {
-    global $user_name, $user_email, $user_age;
-    $user_name = $name;
-    $user_email = $email;
-    $user_age = $age;
-}
-
-function get_user_info() {
-    global $user_name, $user_email, $user_age;
-    return "Nom: $user_name, Email: $user_email, Âge: $user_age";
-}
-
-// Problèmes :
-// - Variables globales dangereuses
-// - Code dupliqué pour chaque utilisateur
-// - Difficile à maintenir
-?>
-```
-
-### ✅ Approche orientée objet (moderne)
-
-```php
-<?php
-class User {
-    private $nom;
-    private $email;
-    private $age;
-
-    public function __construct($nom, $email, $age) {
-        $this->nom = $nom;
-        $this->email = $email;
-        $this->age = $age;
+    // Méthodes (actions)
+    public function demarrer() {
+        echo "La voiture démarre !";
     }
 
-    public function getInfo() {
-        return "Nom: {$this->nom}, Email: {$this->email}, Âge: {$this->age}";
+    public function afficher() {
+        echo "Voiture : {$this->marque}, Couleur : {$this->couleur}";
     }
 }
 
-// Utilisation
-$user1 = new User("Alice", "alice@example.com", 25);
-$user2 = new User("Bob", "bob@example.com", 30);
-
-echo $user1->getInfo(); // Alice
-echo $user2->getInfo(); // Bob
+// L'objet (la maison construite)
+$maVoiture = new Voiture();
+$maVoiture->marque = "Toyota";
+$maVoiture->couleur = "Rouge";
+$maVoiture->demarrer();
+$maVoiture->afficher();
 ?>
 ```
 
 ---
 
-## Les 4 piliers de la POO
+## Les propriétés
 
-### 1. 🏗️ **Encapsulation**
+Les **propriétés** sont les caractéristiques de l'objet. Ce sont des variables qui stockent des données.
 
-Cacher les détails internes et contrôler l'accès aux données.
+### Syntaxe
 
 ```php
 <?php
-class CompteBancaire {
-    private $solde; // Propriété privée
+class Personne {
+    public $nom;        // Propriété publique
+    public $age;         // Propriété publique
+    public $email;       // Propriété publique
+}
+?>
+```
 
-    public function consulterSolde() {
-        return $this->solde; // Accès contrôlé
+### Utilisation
+
+```php
+<?php
+$personne = new Personne();
+$personne->nom = "Alice";
+$personne->age = 25;
+$personne->email = "alice@example.com";
+?>
+```
+
+---
+
+## Les méthodes
+
+Les **méthodes** sont les actions que peut effectuer l'objet. Ce sont des fonctions à l'intérieur de la classe.
+
+### Syntaxe
+
+```php
+<?php
+class Personne {
+    public $nom;
+    public $age;
+
+    // Méthode
+    public function sePresenter() {
+        echo "Bonjour, je m'appelle {$this->nom} et j'ai {$this->age} ans";
+    }
+
+    // Autre méthode
+    public function feterAnniversaire() {
+        $this->age++;
+        echo "Joyeux anniversaire ! J'ai maintenant {$this->age} ans";
     }
 }
 ?>
 ```
 
-### 2. 🔄 **Héritage**
+### Utilisation
 
-Une classe peut hériter des propriétés et méthodes d'une autre.
+```php
+<?php
+$personne = new Personne();
+$personne->nom = "Alice";
+$personne->age = 25;
+
+$personne->sePresenter();        // Appel de la méthode
+$personne->feterAnniversaire(); // Appel de la méthode
+?>
+```
+
+---
+
+## Comment instancier un objet ?
+
+L'**instanciation** est le processus de création d'un objet à partir d'une classe.
+
+### Syntaxe
+
+```php
+<?php
+$nomDeLobjet = new NomDeLaClasse();
+?>
+```
+
+### Exemple complet
 
 ```php
 <?php
 class Animal {
-    protected $nom;
+    public $nom;
+    public $espece;
 
-    public function manger() {
-        echo "{$this->nom} mange";
+    public function crier() {
+        echo "{$this->nom} fait du bruit !";
+    }
+
+    public function sePresenter() {
+        echo "Je suis {$this->nom}, un {$this->espece}";
     }
 }
 
-class Chien extends Animal {
-    public function aboyer() {
-        echo "{$this->nom} aboie !";
-    }
-}
-?>
-```
+// Création de 2 objets différents
+$chien = new Animal();
+$chien->nom = "Rex";
+$chien->espece = "Chien";
 
-### 3. 🎭 **Polymorphisme**
+$chat = new Animal();
+$chat->nom = "Minou";
+$chat->espece = "Chat";
 
-Un même nom de méthode peut avoir différents comportements.
+// Utilisation des objets
+$chien->sePresenter();
+$chien->crier();
 
-```php
-<?php
-class Forme {
-    public function calculerAire() {
-        return 0;
-    }
-}
-
-class Rectangle extends Forme {
-    public function calculerAire() {
-        return $this->largeur * $this->hauteur;
-    }
-}
-?>
-```
-
-### 4. 🔧 **Abstraction**
-
-Simplifier la complexité en se concentrant sur l'essentiel.
-
-```php
-<?php
-abstract class Vehicule {
-    abstract public function demarrer();
-}
-
-class Voiture extends Vehicule {
-    public function demarrer() {
-        echo "La voiture démarre !";
-    }
-}
+$chat->sePresenter();
+$chat->crier();
 ?>
 ```
 
 ---
 
-## 🎯 Exercices pratiques
+## 🎯 Exercice pratique
 
-### Exercice 1 : Système de gestion d'employés
+### 🎯 Objectif
 
-**🎯 OBJECTIF :** Créer un système simple pour gérer les employés d'une entreprise et calculer leur salaire.
+Créer votre première classe et l'utiliser.
 
-**📋 SCÉNARIO :** Vous travaillez pour une startup qui veut automatiser la gestion de ses employés. Vous devez créer un système qui permet de :
+### 📋 Instructions
 
-- Enregistrer un nouvel employé
-- Afficher ses informations
-- Calculer son salaire mensuel
-- Gérer son anniversaire
+1. Créez une classe `Livre` avec 3 propriétés : `titre`, `auteur`, `pages`
+2. Ajoutez 2 méthodes : `afficher()` et `lire()`
+3. Instanciez 2 objets différents
+4. Utilisez les méthodes sur chaque objet
 
-**📝 SPÉCIFICATIONS :**
-
-- Classe `Employe` avec propriétés : `nom`, `age`, `poste`, `salaireHoraire`, `heuresTravaillees`
-- Méthodes : `sePresenter()`, `calculerSalaireMensuel()`, `feterAnniversaire()`, `changerPoste()`
-
-**✅ RÉSULTAT ATTENDU :**
+### ✅ Résultat attendu
 
 ```
-=== GESTION DES EMPLOYÉS ===
-Nouvel employé créé : Alice Dupont, 28 ans, Développeuse
-Salaire mensuel d'Alice : 3200€
-Alice fête son anniversaire ! Elle a maintenant 29 ans
-Alice a été promue : Développeuse Senior
-Nouveau salaire mensuel : 4000€
+Livre : Le Petit Prince, Auteur : Antoine de Saint-Exupéry, Pages : 96
+Je lis Le Petit Prince...
+Livre : Harry Potter, Auteur : J.K. Rowling, Pages : 320
+Je lis Harry Potter...
 ```
 
-**💻 SOLUTION :**
+### 💻 Solution
 
 ```php
 <?php
-class Employe {
-    private $nom;
-    private $age;
-    private $poste;
-    private $salaireHoraire;
-    private $heuresTravaillees;
-
-    public function __construct($nom, $age, $poste, $salaireHoraire, $heuresTravaillees = 160) {
-        $this->setNom($nom);
-        $this->setAge($age);
-        $this->setPoste($poste);
-        $this->setSalaireHoraire($salaireHoraire);
-        $this->setHeuresTravaillees($heuresTravaillees);
-    }
-
-    // Getters
-    public function getNom() {
-        return $this->nom;
-    }
-
-    public function getAge() {
-        return $this->age;
-    }
-
-    public function getPoste() {
-        return $this->poste;
-    }
-
-    public function getSalaireHoraire() {
-        return $this->salaireHoraire;
-    }
-
-    public function getHeuresTravaillees() {
-        return $this->heuresTravaillees;
-    }
-
-    // Setters avec validation
-    public function setNom($nom) {
-        if (strlen($nom) >= 2) {
-            $this->nom = trim($nom);
-            return true;
-        }
-        return false;
-    }
-
-    public function setAge($age) {
-        if ($age >= 18 && $age <= 65) {
-            $this->age = $age;
-            return true;
-        }
-        return false;
-    }
-
-    public function setPoste($poste) {
-        if (strlen($poste) >= 2) {
-            $this->poste = trim($poste);
-            return true;
-        }
-        return false;
-    }
-
-    public function setSalaireHoraire($salaire) {
-        if ($salaire > 0) {
-            $this->salaireHoraire = $salaire;
-            return true;
-        }
-        return false;
-    }
-
-    public function setHeuresTravaillees($heures) {
-        if ($heures > 0 && $heures <= 200) {
-            $this->heuresTravaillees = $heures;
-            return true;
-        }
-        return false;
-    }
-
-    public function sePresenter() {
-        echo "Nouvel employé créé : {$this->nom}, {$this->age} ans, {$this->poste}\n";
-    }
-
-    public function calculerSalaireMensuel() {
-        $salaire = $this->salaireHoraire * $this->heuresTravaillees;
-        echo "Salaire mensuel de {$this->nom} : {$salaire}€\n";
-        return $salaire;
-    }
-
-    public function feterAnniversaire() {
-        $this->age++;
-        echo "{$this->nom} fête son anniversaire ! Elle a maintenant {$this->age} ans\n";
-    }
-
-    public function changerPoste($nouveauPoste, $nouveauSalaire) {
-        if ($this->setPoste($nouveauPoste) && $this->setSalaireHoraire($nouveauSalaire)) {
-            echo "{$this->nom} a été promue : {$nouveauPoste}\n";
-            echo "Nouveau salaire mensuel : " . $this->calculerSalaireMensuel() . "€\n";
-        } else {
-            echo "Erreur : Données invalides pour le changement de poste\n";
-        }
-    }
-}
-
-// Test du système
-echo "=== GESTION DES EMPLOYÉS ===\n";
-$employe = new Employe("Alice Dupont", 28, "Développeuse", 20, 160);
-$employe->sePresenter();
-$employe->calculerSalaireMensuel();
-$employe->feterAnniversaire();
-$employe->changerPoste("Développeuse Senior", 25);
-?>
-```
-
-### Exercice 2 : Système de gestion de stock
-
-**🎯 OBJECTIF :** Comparer deux approches pour gérer l'inventaire d'un magasin et comprendre pourquoi la POO est meilleure.
-
-**📋 SCÉNARIO :** Vous gérez un magasin de technologie. Vous devez :
-
-- Suivre les produits en stock
-- Gérer les ventes
-- Afficher les statistiques
-- Gérer plusieurs produits simultanément
-
-**❌ PROBLÈME avec l'approche procédurale :**
-
-- Variables globales dangereuses
-- Code dupliqué pour chaque produit
-- Difficile à maintenir
-
-**✅ SOLUTION avec la POO :**
-
-- Chaque produit est un objet indépendant
-- Code réutilisable
-- Facile à étendre
-
-**📝 SPÉCIFICATIONS :**
-
-- Classe `Produit` avec propriétés : `nom`, `prix`, `stock`
-- Méthodes : `afficher()`, `vendre()`, `ajouterStock()`, `estDisponible()`
-
-**✅ RÉSULTAT ATTENDU :**
-
-```
-=== GESTION DE STOCK ===
-Produit: Laptop, Prix: 999€, Stock: 5
-Vente effectuée ! Stock restant: 4
-Stock ajouté ! Nouveau stock: 9
-Produit: Souris, Prix: 25€, Stock: 10
-Vente effectuée ! Stock restant: 9
-=== STATISTIQUES ===
-Laptop: 9 en stock (valeur: 8991€)
-Souris: 9 en stock (valeur: 225€)
-```
-
-**💻 SOLUTION :**
-
-```php
-<?php
-class Produit {
-    private $nom;
-    private $prix;
-    private $stock;
-
-    public function __construct($nom, $prix, $stock) {
-        $this->nom = $nom;
-        $this->prix = $prix;
-        $this->stock = $stock;
-    }
+class Livre {
+    public $titre;
+    public $auteur;
+    public $pages;
 
     public function afficher() {
-        echo "Produit: {$this->nom}, Prix: {$this->prix}€, Stock: {$this->stock}\n";
+        echo "Livre : {$this->titre}, Auteur : {$this->auteur}, Pages : {$this->pages}\n";
     }
 
-    public function vendre() {
-        if ($this->stock > 0) {
-            $this->stock--;
-            echo "Vente effectuée ! Stock restant: {$this->stock}\n";
-            return true;
-        } else {
-            echo "Produit épuisé !\n";
-            return false;
-        }
-    }
-
-    public function ajouterStock($quantite) {
-        $this->stock += $quantite;
-        echo "Stock ajouté ! Nouveau stock: {$this->stock}\n";
-    }
-
-    public function estDisponible() {
-        return $this->stock > 0;
-    }
-
-    public function getValeurStock() {
-        return $this->stock * $this->prix;
-    }
-
-    public function getInfo() {
-        return [
-            'nom' => $this->nom,
-            'prix' => $this->prix,
-            'stock' => $this->stock,
-            'valeur' => $this->getValeurStock()
-        ];
+    public function lire() {
+        echo "Je lis {$this->titre}...\n";
     }
 }
 
-// Test du système
-echo "=== GESTION DE STOCK ===\n";
-$laptop = new Produit("Laptop", 999, 5);
-$souris = new Produit("Souris", 25, 10);
+// Création des objets
+$livre1 = new Livre();
+$livre1->titre = "Le Petit Prince";
+$livre1->auteur = "Antoine de Saint-Exupéry";
+$livre1->pages = 96;
 
-$laptop->afficher();
-$laptop->vendre();
-$laptop->ajouterStock(5);
+$livre2 = new Livre();
+$livre2->titre = "Harry Potter";
+$livre2->auteur = "J.K. Rowling";
+$livre2->pages = 320;
 
-$souris->afficher();
-$souris->vendre();
+// Utilisation des objets
+$livre1->afficher();
+$livre1->lire();
 
-echo "=== STATISTIQUES ===\n";
-$produits = [$laptop, $souris];
-foreach ($produits as $produit) {
-    $info = $produit->getInfo();
-    echo "{$info['nom']}: {$info['stock']} en stock (valeur: {$info['valeur']}€)\n";
-}
+$livre2->afficher();
+$livre2->lire();
 ?>
 ```
 
@@ -458,24 +243,25 @@ foreach ($produits as $produit) {
 
 ## 🎯 Points clés à retenir
 
-✅ **La POO organise le code** autour d'objets du monde réel  
-✅ **Chaque objet a des propriétés** (données) et des méthodes (actions)  
-✅ **La POO améliore la réutilisabilité** et la maintenabilité du code  
-✅ **Les 4 piliers** : Encapsulation, Héritage, Polymorphisme, Abstraction  
-✅ **La POO est plus évolutive** que la programmation procédurale
+✅ **Une classe** est un modèle (plan)  
+✅ **Un objet** est une instance concrète de la classe  
+✅ **Les propriétés** stockent les données de l'objet  
+✅ **Les méthodes** définissent les actions de l'objet  
+✅ **`new`** permet de créer un objet  
+✅ **`$this`** fait référence à l'objet courant
 
 ---
 
 ## 🚀 Prochaines étapes
 
-Maintenant que vous comprenez les concepts de base, passez au **[Module 2 : Les classes et objets](02-Classes-Objets.md)** pour apprendre à créer vos premières classes !
+Maintenant que vous savez créer des classes et des objets, passez au **[Module 2 : Les classes et objets](02-Classes-Objets.md)** pour apprendre le typage strict et la sécurité !
 
 ---
 
 ## 📚 Ressources complémentaires
 
 - 📖 [Documentation PHP - Introduction à la POO](https://www.php.net/manual/fr/language.oop5.php)
-- 🎥 [Vidéo : Introduction à la POO](https://www.youtube.com/watch?v=example)
+- 🎥 [Vidéo : Introduction à la POO](https://www.youtube.com/results?search_query=introduction+poo+php&sp=EgIQAQ%253D%253D)
 - 📝 [Article : Pourquoi utiliser la POO ?](https://example.com)
 
 ---
